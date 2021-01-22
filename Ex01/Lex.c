@@ -290,8 +290,8 @@ int lexicalParse(char *str){
 /*
 OUTPUT:
 
-❯ gcc Lex.c -o l
-❯ ./l
+gcc Lex.c -o l
+./l
 
 			Lexical Analyser Using C
 
@@ -305,8 +305,8 @@ OUTPUT:
 
 		The given expression is lexically valid.
 
-❯ gcc Lex.c -o l
-❯ ./l
+gcc Lex.c -o l
+./l
 
 			Lexical Analyser Using C
 
@@ -318,7 +318,6 @@ OUTPUT:
 		'==' is EQUALITY operator.
 		'2c' is not a valid identifier.
 
-		The given expression is lexically invalid.
-❯ 
+		The given expression is lexically invalid. 
 
 */

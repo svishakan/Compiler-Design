@@ -9,6 +9,8 @@ int isOperator(char ch);
 int isDelimiter(char ch);
 int isValidIdentifier(char *str);
 int isInteger(char *str);
+int isKeyword(char *str);
+int isPreprocessorDirective(char *str);
 char *subString(char *str, int start, int end);
 int printOperator(char ch1, char ch2);
 int lexicalParse(char *str);
@@ -84,6 +86,32 @@ int isInteger(char *str){
     }
     
     return 1;
+}
+
+int isKeyword(char *str){
+    //Checks if the string is a valid keyword
+
+    if(!strcmp(str, "if") || !strcmp(str, "else") || !strcmp(str, "while") ||
+        !strcmp(str, "for") || !strcmp(str, "do") || !strcmp(str, "break") ||
+        !strcmp(str, "switch") || !strcmp(str, "continue") || !strcmp(str, "return") ||
+        !strcmp(str, "case") || !strcmp(str, "default") || !strcmp(str, "void") ||
+        !strcmp(str, "int") || !strcmp(str, "char") || !strcmp(str, "bool") ||
+        !strcmp(str, "struct") || !strcmp(str, "goto") || !strcmp(str, "typedef") ||
+        !strcmp(str, "unsigned") || !strcmp(str, "long") || !strcmp(str, "short")){
+            return 1;
+        }
+    
+    return 0;
+}
+
+int isPreprocessorDirective(char *str){
+    //Checks if the string is a valid preprocessor directive
+
+    if(str[0] == '#'){
+        //Basic check, works for header files, macros and const declarations
+        return 1;
+    }
+    return 0;
 }
 
 char *subString(char *str, int start, int end){
@@ -264,13 +292,21 @@ int lexicalParse(char *str){
             //Make a substring of the unparsed characters
             char *sub = subString(str, left, right - 1);
 
-            if(isInteger(sub) == 1){
-                //Check if substring is an integer
-                printf("\n\t\t'%s' is an integer.", sub);
+            if(isPreprocessorDirective(sub) == 1){
+                //Check if substring is preprocessor directive
+                printf("\n\t\t'%s' is a valid preprocessor directive.", sub);
             }
             else if(isValidIdentifier(sub) == 1){
                 //Check if substring is a valid identifier
                 printf("\n\t\t'%s' is a valid identifier.", sub);
+            }
+            else if(isInteger(sub) == 1){
+                //Check if substring is an integer
+                printf("\n\t\t'%s' is an integer.", sub);
+            }
+            else if(isKeyword(sub) == 1){
+                //Check if substring is a keyword
+                printf("\n\t\t'%s' is a valid keyword.", sub);
             }
             else if(isValidIdentifier(sub) == 0 && isDelimiter(str[right - 1]) == 0){
                 //Otherwise, print that it is not a valid identifier

@@ -4,26 +4,40 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 int isOperator(char ch);
 int isDelimiter(char ch);
 int isValidIdentifier(char *str);
 int isInteger(char *str);
 int isKeyword(char *str);
-int isPreprocessorDirective(char *str);
+int isPreprocessorDirective(char ch);
 char *subString(char *str, int start, int end);
 int printOperator(char ch1, char ch2);
 int lexicalParse(char *str);
 
 int main(void){
-    int status = 0;
-    char str[100];
+    int status = 0, len, fp;
+    char text[10000], file[100];
 
     printf("\n\t\t\tLexical Analyser Using C\n");
-    printf("\n\t\tEnter a string to parse: ");
-    scanf("%[^\n]", str);
+    printf("\n\t\tEnter file name to parse: ");
+    scanf("%[^\n]", file);
 
-    status = lexicalParse(str);
+    fp = open(file, O_RDONLY);
+
+    if(fp < 0){
+        printf("\nError: File does not exist.\n");
+        return 0;
+    }
+
+    len = read(fp, text, 10000);
+    close(fp);
+
+    printf("\nText to be parsed:\n\n%s\n", text);
+
+    status = lexicalParse(text);
 
     if(status){
         printf("\n\n\t\tThe given expression is lexically valid.\n");
@@ -52,7 +66,7 @@ int isDelimiter(char ch){
     //Checks if the character is a valid delimiter
 
     if (ch == ' ' || ch == ';' || ch == '(' || ch == ')'
-        || ch == '{' || ch == '}' || ch == '=' || isOperator(ch) == 1){
+        || ch == '{' || ch == '}' || isOperator(ch) == 1){
             return 1;
         }
 
@@ -97,17 +111,18 @@ int isKeyword(char *str){
         !strcmp(str, "case") || !strcmp(str, "default") || !strcmp(str, "void") ||
         !strcmp(str, "int") || !strcmp(str, "char") || !strcmp(str, "bool") ||
         !strcmp(str, "struct") || !strcmp(str, "goto") || !strcmp(str, "typedef") ||
-        !strcmp(str, "unsigned") || !strcmp(str, "long") || !strcmp(str, "short")){
+        !strcmp(str, "unsigned") || !strcmp(str, "long") || !strcmp(str, "short") ||
+        !strcmp(str, "float") || !strcmp(str, "double") || !strcmp(str, "sizeof")){
             return 1;
         }
     
     return 0;
 }
 
-int isPreprocessorDirective(char *str){
+int isPreprocessorDirective(char ch){
     //Checks if the string is a valid preprocessor directive
 
-    if(str[0] == '#'){
+    if(ch == '#'){
         //Basic check, works for header files, macros and const declarations
         return 1;
     }
@@ -134,13 +149,13 @@ int printOperator(char ch1, char ch2){
     switch(ch1){
         case '+':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is ADD/ASSIGNMENT operator.", ch1, ch2);
+                printf("ASSIGN ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is ADD operator.", ch1);
+                printf("ADD ");
             }
             else{
-                printf("\n\t\t'%c' is not a valid operator.", ch1);
+                printf("INVALID-OP ");
                 return 0;
             }
             break;
@@ -148,101 +163,101 @@ int printOperator(char ch1, char ch2){
 
         case '-':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is SUBTRACT/ASSIGNMENT operator.", ch1, ch2);
+                printf("SUB-ASSIGN ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is SUBTRACT operator.", ch1);
+                printf("SUB ");
             }
             else{
-                printf("\n\t\t'%c' is not a valid operator.", ch1);
+                printf("INVALID-OP ");
                 return 0;
             }
             break;
 
         case '*':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is PRODUCT/ASSIGNMENT operator.", ch1, ch2);
+                printf("PRODUCT-ASSIGN ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is PRODUCT operator.", ch1);
+                printf("PRODUCT ");
             }
             else{
-                printf("\n\t\t'%c' is not a valid operator.", ch1);
+                printf("INVALID-OP");
                 return 0;
             }
             break;
 
         case '/':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is DIVISION/ASSIGNMENT operator.", ch1, ch2);
+                printf("DIVISION-ASSIGN ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is DIVISION operator.", ch1);
+                printf("DIVISION ");
             }
             else{
-                printf("\n\t\t'%c' is not a valid operator.", ch1);
+                printf("INVALID-OP ");
                 return 0;
             }
             break;
 
         case '%':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is MODULO/ASSIGNMENT operator.", ch1, ch2);
+                printf("MODULO-ASSIGN ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is MODULO operator.", ch1);
+                printf("MODULO ");
             }
             else{
-                printf("\n\t\t'%c' is not a valid operator.", ch1);
+                printf("INVALID-OP ");
                 return 0;
             }
             break;
         
         case '=':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is EQUALITY operator.", ch1, ch2);
+                printf("EQUALITY ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is ASSIGNMENT operator", ch1);
+                printf("ASSIGN ");
             }
             else{
-                printf("\n\t\t'%c' is not a valid operator.", ch1);
+                printf("INVALID-OP ");
                 return 0;
             }
             break;
         
         case '>':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is GREATER THAN/EQUAL TO operator.", ch1, ch2);
+                printf("GT-EQ ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is GREATER THAN operator.", ch1);
+                printf("GT ");
             }
             else{
-                printf("\n\t\t'%c%c' is not a valid operator.", ch1, ch2);
+                printf("INVALID-OP ");
                 return 0;
             }
             break;
 
         case '<':
             if(ch2 == '='){
-                printf("\n\t\t'%c%c' is LESSER THAN/EQUAL TO operator.", ch1, ch2);
+                printf("LT-EQ ");
             }
             else if(ch2 == ' '){
-                printf("\n\t\t'%c' is LESSER THAN operator.", ch1);
+                printf("LT ");
             }
             else{
-                printf("\n\t\t'%c%c' is not a valid operator.", ch1, ch2);
+                printf("INVALID-OP ");
                 return 0;
             }
             break;
 
         case '!':
-            printf("\n\t\t'%c' is a NOT operator.", ch1);
+            printf("NOT ");
             break;
 
         default:
-            printf("\n\t\t'%c' is a not a valid operator.", ch1);
+            printf("INVALID-OP ");
             return 0;
     }
     
@@ -251,10 +266,28 @@ int printOperator(char ch1, char ch2){
 
 int lexicalParse(char *str){
     //Parse the given string to check for validity
-    int left = 0, right = 0, len = strlen(str), status = 1;
+    int left = 0, right = 0, len = strlen(str), status = 1, i;
+
+    printf("\nLexical Analysis:\n\t");
 
     while(right <= len && left <= right){
         //While we are within the valid bounds of the string, check:
+
+        while(isPreprocessorDirective(str[right]) == 1){
+                //Check if string is preprocessor directive
+                printf("PPDIR ");
+                
+                for(right; str[right] != '\n'; right++);
+                right++;
+                left = right;
+        }
+
+        for(i = right; i < len; i++){
+            //Clearing linebreaks & tabs to spaces for efficient processing
+            if(str[i] == '\n' || str[i] == '\t'){
+                str[i] = ' ';
+            }
+        }
 
         if(isDelimiter(str[right]) == 0){
             //If we do not encounter a delimiter, keep moving forward
@@ -262,20 +295,20 @@ int lexicalParse(char *str){
             right++;
         }
 
-        if(isDelimiter(str[right]) == 1 && left == right){
+        else if(isDelimiter(str[right]) == 1 && left == right){
             //If it is a delimiter, and we haven't parsed it yet
 
             if(isOperator(str[right]) == 1){
                 //Check if the delimiter is an operator
                 if((right + 1) <= len && isOperator(str[right + 1]) == 1){
                     //Check if the next character is also an operator
-                    status = printOperator(str[right], str[right + 1]);
+                    status = status & printOperator(str[right], str[right + 1]);
                     right++;
                 }
 
                 else{
                     //Next character is not an operator
-                    status = printOperator(str[right], ' ');
+                    status = status & printOperator(str[right], ' ');
                 }
 
                 //printf("\n\t\t'%c' is an operator.", str[right]);
@@ -285,33 +318,55 @@ int lexicalParse(char *str){
             left = right;
         }
 
+        else if(str[right] == '(' && left != right || (right == len && left != right)){
+            //Special case, to check for functions
+
+            char *sub = subString(str, left, right - 1);
+
+            if(isKeyword(sub) == 1){
+                //Check if the function is a keyword based function, like "if" & "for"
+                printf("KW ");
+                left = right;
+                continue;   //Go ahead with the next check
+            }
+
+            //Otherwise, its some other function, parse it.
+
+            for(i = right + 1; i < len; i++){
+                if(str[i] == ')'){
+                    //Finish parsing till the end of the block and break
+                    printf("FUNCT ");
+                    right = i + 2;
+                    left = right;
+                    status = status & 1;
+                    break;
+                }
+            }
+        }
+
         else if(isDelimiter(str[right]) == 1 && left != right || (right == len && left != right)){
-            //We encountered a delimiter in the "right" position, but left != right, thus a chunk of
-            //unparsed characters exist between left and right
+            //We encountered a delimiter in the "right" position, but left != right
+            //thus a chunk of unparsed characters exist between left and right
 
             //Make a substring of the unparsed characters
             char *sub = subString(str, left, right - 1);
-
-            if(isPreprocessorDirective(sub) == 1){
-                //Check if substring is preprocessor directive
-                printf("\n\t\t'%s' is a valid preprocessor directive.", sub);
-            }
-            else if(isValidIdentifier(sub) == 1){
-                //Check if substring is a valid identifier
-                printf("\n\t\t'%s' is a valid identifier.", sub);
-            }
-            else if(isInteger(sub) == 1){
+           
+            if(isInteger(sub) == 1){
                 //Check if substring is an integer
-                printf("\n\t\t'%s' is an integer.", sub);
+                printf("NUMCONST ");
             }
             else if(isKeyword(sub) == 1){
                 //Check if substring is a keyword
-                printf("\n\t\t'%s' is a valid keyword.", sub);
+                printf("KW ");
+            }
+            else if(isValidIdentifier(sub) == 1){
+                //Check if substring is a valid identifier
+                printf("ID ");
             }
             else if(isValidIdentifier(sub) == 0 && isDelimiter(str[right - 1]) == 0){
                 //Otherwise, print that it is not a valid identifier
-                status = 0;
-                printf("\n\t\t'%s' is not a valid identifier.", sub);
+                status = status & 0;
+                printf("INVALID-ID");
             }
 
             left = right;   //We have parsed the chunk, thus "left" = "right"
@@ -331,29 +386,60 @@ gcc Lex.c -o l
 
 			Lexical Analyser Using C
 
-		Enter a string to parse: a + b = c
+		Enter file name to parse: Sample.c
 
-		'a' is a valid identifier.
-		'+' is ADD operator.
-		'b' is a valid identifier.
-		'=' is ASSIGNMENT operator
-		'c' is a valid identifier.
+Text to be parsed:
+
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(){
+    int a, b;
+    printf("Hello");
+    
+    a = b + 100;
+
+    if(a > b){
+        printf("Greater");
+    }
+
+    return 0;
+}
+
+Lexical Analysis:
+	PPDIR PPDIR KW FUNCT KW ID ID FUNCT ID ASSIGN ID ADD NUMCONST KW ID GT ID FUNCT KW NUMCONST 
 
 		The given expression is lexically valid.
+
 
 gcc Lex.c -o l
 ./l
 
 			Lexical Analyser Using C
 
-		Enter a string to parse: a >! b == 2c
+		Enter file name to parse: Sample.c
 
-		'a' is a valid identifier.
-		'>!' is not a valid operator.
-		'b' is a valid identifier.
-		'==' is EQUALITY operator.
-		'2c' is not a valid identifier.
+Text to be parsed:
 
-		The given expression is lexically invalid. 
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(){
+    int a, b;
+    printf("Hello");
+    
+    a = b <> 100;
+
+    if(a > b){
+        printf("Greater");
+    }
+
+    return 0;
+}
+
+Lexical Analysis:
+	PPDIR PPDIR KW FUNCT KW ID ID FUNCT ID ASSIGN ID INVALID-OP NUMCONST KW ID GT ID FUNCT KW NUMCONST 
+
+		The given expression is lexically invalid.
 
 */

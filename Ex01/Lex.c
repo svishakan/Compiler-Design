@@ -8,6 +8,7 @@
 #include <fcntl.h>
 
 int isOperator(char ch);
+int isSeparator(char ch);
 int isDelimiter(char ch);
 int isValidIdentifier(char *str);
 int isInteger(char *str);
@@ -62,11 +63,21 @@ int isOperator(char ch){
     return 0;
 }
 
+int isSeparator(char ch){
+    //Checks if the character is a valid separator
+    
+    if (ch == ';'|| ch == '{' || ch == '}' || ch == ','){
+            return 1;
+        }
+
+    return 0;
+}
+
 int isDelimiter(char ch){
     //Checks if the character is a valid delimiter
 
-    if (ch == ' ' || ch == ';' || ch == '(' || ch == ')'
-        || ch == '{' || ch == '}' || isOperator(ch) == 1){
+    if (ch == ' ' || ch == '(' || ch == ')'
+        || isSeparator(ch) == 1 || isOperator(ch) == 1){
             return 1;
         }
 
@@ -297,8 +308,13 @@ int lexicalParse(char *str){
 
         else if(isDelimiter(str[right]) == 1 && left == right){
             //If it is a delimiter, and we haven't parsed it yet
+            
+            if(isSeparator(str[right]) == 1){
+                //Check if the delimiter is a separator
+                printf("SP ");
+            }
 
-            if(isOperator(str[right]) == 1){
+            else if(isOperator(str[right]) == 1){
                 //Check if the delimiter is an operator
                 if((right + 1) <= len && isOperator(str[right + 1]) == 1){
                     //Check if the next character is also an operator
@@ -336,7 +352,7 @@ int lexicalParse(char *str){
                 if(str[i] == ')'){
                     //Finish parsing till the end of the block and break
                     printf("FUNCT ");
-                    right = i + 2;
+                    right = i + 1;
                     left = right;
                     status = status & 1;
                     break;
@@ -406,10 +422,12 @@ int main(){
     return 0;
 }
 
+
 Lexical Analysis:
-	PPDIR PPDIR KW FUNCT KW ID ID FUNCT ID ASSIGN ID ADD NUMCONST KW ID GT ID FUNCT KW NUMCONST 
+	PPDIR PPDIR KW FUNCT SP KW ID SP ID SP FUNCT SP ID ASSIGN ID ADD NUMCONST SP KW ID GT ID SP FUNCT SP SP KW NUMCONST SP SP 
 
 		The given expression is lexically valid.
+
 
 
 gcc Lex.c -o l
@@ -428,18 +446,19 @@ int main(){
     int a, b;
     printf("Hello");
     
-    a = b <> 100;
+    a = b + 100;
 
-    if(a > b){
+    if(a <> b){
         printf("Greater");
     }
 
     return 0;
 }
 
+
 Lexical Analysis:
-	PPDIR PPDIR KW FUNCT KW ID ID FUNCT ID ASSIGN ID INVALID-OP NUMCONST KW ID GT ID FUNCT KW NUMCONST 
+	PPDIR PPDIR KW FUNCT SP KW ID SP ID SP FUNCT SP ID ASSIGN ID ADD NUMCONST SP KW ID INVALID-OP ID SP FUNCT SP SP KW NUMCONST SP SP 
 
 		The given expression is lexically invalid.
-
+		
 */

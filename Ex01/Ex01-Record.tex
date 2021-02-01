@@ -3,6 +3,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage{fullpage}
 \usepackage{listings}
+\usepackage{graphicx}
 \usepackage{color}
 
 %Syntax highlighting
@@ -62,14 +63,32 @@ basic functionalities of a \textbf{Lexical Analyser}.
 %Output
 \newpage
 \subsection*{\flushleft{Output - Valid Case:}}
-\begin{flushleft}
-\lstinputlisting[language = C, firstline = 400, lastline = 430]{Lex.c}
-\end{flushleft}
+\begin{figure}[h]
+\centering
+\caption{Console Output for a Valid Program.}
+\includegraphics[scale= 0.5]{valid_example.png}
+\end{figure}
 
 \newpage
 \subsection*{\flushleft{Output - Invalid Case:}}
-\begin{flushleft}
-\lstinputlisting[language = C, firstline = 433, lastline = 463]{Lex.c}
-\end{flushleft}
+\begin{figure}[h]
+\centering
+\caption{Console Output for an Invalid Program.}
+\includegraphics[scale= 0.5]{invalid_example.png}
+\end{figure}
+
+%Learning Outcome
+\newpage
+\subsection*{\flushleft{Learning Outcome:}}
+\begin{itemize}
+
+\item From the experiment, I understood how a basic \textbf{Lexical Analyser} works.
+\item I was able to formulate ideas on how to implement recognition of specific tokens in programs for identification by the Lexical Analyser. 
+\item I was able to implement simple regular expressions in C.
+\item I learnt how to parse a program for lexical validity, utilising the concept of \textbf{lexemes}.
+\item I was able to visualize the complexity that goes behind the compilation process and the significance of a Lexical Analyser phase in the compilation flow.
+
+\end{itemize}
+
 
 \end{document}

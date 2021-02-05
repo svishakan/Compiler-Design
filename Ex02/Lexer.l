@@ -10,8 +10,8 @@
 
 int_const [0-9]+
 float_const [0-9]+.[0-9]+
-char_const \'.\'
-string_const \".*\"
+char_const [\'].[\']
+string_const [\"].*[\"]
 identifier [a-zA-Z_][a-zA-Z0-9_]*
 function [a-zA-Z_][a-zA-Z0-9]*[(].*[)]
 keyword (int|float|char|unsigned|typedef|struct|return|continue|break|if|else|for|while|do|extern|auto|case|switch|enum|goto|long|double|sizeof|void|default|register)

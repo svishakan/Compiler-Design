@@ -2,24 +2,16 @@
 #include<stdlib.h>
 
 int main(){
-    int a = 1, b;
-    int c = 2;
-    char d, e = 'Z';
-    float f = 1.23;
+    int a, b;
+    char str[5] = "Hello";
 
-    printf("Hello to %d", c);
+    printf(str);
     
     a = b + 100;
 
-    if (c > 100){
+    if (a > b){
         printf("Greater");
     }
-
-    while (c > 0) {
-        printf("Hello to Lex!");
-        c -= 1;
-    }
-
 
     //a is GREATER than b!
     /* Multi-line 

@@ -86,6 +86,8 @@ int main(){
         }
 
         if(flag != 2){
+            //flag == 0 => no LR
+            //flag == 1 => LR of the form A->Ab which cannot be removed 
             printf("%s\n", productions[i]);
         }
 
@@ -123,6 +125,8 @@ int main(){
                     else{
                         //k sub-production contains the LR causing term, thus first print the
                         //next sub-production followed by a new non-terminal as a new production
+                        //2D Array Manipulation, sub_prods[k] + 1 essentially prints 
+                        //the string sub_prods[k][1] till sub_prods[k][n]
                         flag = 1;
                         printf("%c\'->%s%c\'", non_terminal, sub_prods[k] + 1, non_terminal);
                     }

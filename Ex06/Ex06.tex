@@ -1,0 +1,117 @@
+\documentclass[12pt, a4]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{color}
+
+%Syntax highlighting
+\definecolor{blue-violet}{rgb}{0.54, 0.17, 0.89}
+\definecolor{ao}{rgb}{0.0, 0.5, 0.0}
+\definecolor{amaranth}{rgb}{0.9, 0.17, 0.31}
+\definecolor{ballblue}{rgb}{0.13, 0.67, 0.8}
+\definecolor{onyx}{rgb}{0.06, 0.06, 0.06}
+
+
+\lstset{
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  breakatwhitespace=false,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=4,  
+  backgroundcolor=\color{white},   % choose the background color
+  commentstyle=\color{ao},    % comment style
+  keywordstyle=\color{amaranth},    % keyword style
+  stringstyle=\color{blue-violet},    % string literal style
+  numberstyle=\tiny\color{ballblue},	   % number style
+  basicstyle=\ttfamily\footnotesize\color{onyx} % size of fonts used for the code
+}
+
+%Document Header
+\title{\textbf{Department of CSE\\SSN College of Engineering}}
+\author{\textbf{Vishakan Subramanian - 18 5001 196 - Semester VI}}
+\date{28 March 2021}
+
+\begin{document}
+\maketitle
+\hrule
+\section*{\center{UCS 1602 - Compiler Design}}
+\hrule
+\bigskip
+
+%Assignment Details
+\subsection*{\center{\textbf{Exercise 6: Implementation of Syntax Checker Using Yacc Tool}}}
+\subsection*{\flushleft{Aim:}}
+\begin{flushleft}
+Develop a \textbf{Syntax Checker} to recognize the tokens necessary for the following statements by writing suitable grammars.
+
+\begin{itemize}
+\item Assignment Statement
+\item Conditional Statement
+\item Looping Statement
+\end{itemize}
+
+\end{flushleft}
+
+%Code
+\newpage
+\subsection*{\flushleft{Code - Yacc Parser File:}}
+\begin{flushleft}
+\lstinputlisting[language = C]{Check.y}
+\end{flushleft}
+
+%Code
+\newpage
+\subsection*{\flushleft{Code - Lex Grammar File:}}
+\begin{flushleft}
+\lstinputlisting[language = C]{Check.l}
+\end{flushleft}
+
+%Code
+\newpage
+\subsection*{\flushleft{Sample - Parsed C Code:}}
+\begin{flushleft}
+\lstinputlisting[language = C]{Code.txt}
+\end{flushleft}
+
+%Output
+\newpage
+\subsection*{\flushleft{Output 1 - Valid Case:}}
+\begin{figure}[h]
+\centering
+\caption{Console Output - Valid Case.}
+\includegraphics[height=15cm, width=15cm]{Output1.png}
+\end{figure}
+
+%Output
+\newpage
+\subsection*{\flushleft{Output 2 - Invalid Case:}}
+\begin{figure}[h]
+\centering
+\caption{Console Output - Invalid Case.}
+\includegraphics[height=15cm, width=15cm]{Output2.png}
+\end{figure}
+
+%Learning Outcome
+\newpage
+\subsection*{\flushleft{Learning Outcome:}}
+\begin{itemize}
+\item I learnt more theory behind \textbf{Yacc Parser Generator}.
+\item I understood how to construct a grammar for a basic syntax checker.
+\item I learnt that grammar can be built upon layer by layer, each one adding more detail and complexity.
+\item I learnt that Yacc parser is able to handle Left Recursive grammar as well, since it is a LALR(1) parser.
+\item I was able to implement the required token recognition with Lex tool.
+\item I was able to implement a parser with Yacc to mimic the features of a syntax checker.
+\item I realized key implementation differences between the syntax checker and the desk calculator.
+\item I learnt how the Yacc parser catches an error using the inbuilt yyerror() function.
+
+\end{itemize}
+
+
+\end{document}

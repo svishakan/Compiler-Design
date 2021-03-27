@@ -7,6 +7,10 @@
 
 %token NUM
 /*Defining the precedence*/
+%left '|'
+%left '&'
+%left '!'
+%left  '>' '<'
 %left '+' '-'
 %left '/' '*'
 %right '^'
@@ -21,6 +25,26 @@ Expr  :  Expr '+' Expr  {$$ = $1 + $3;}
       |  Expr '^' Expr  {$$ = pow($1, $3);}
       |  '('Expr')'     {$$ = $2;}
       |  NUM            {$$ = $1;}
+
+And   :  '&''&'
+Or    :  '|''|'
+Not   :  '!'
+
+Expr  :  Expr And Expr  {$$ = $1 * $3;}
+      |  Expr Or Expr   {if($1 == 1 || $2 == 1){$$ = 1;}else{$$ = 0;}}
+      |  Not Expr       {if($2 == 1){$$ = 0;}else{$$ = 1;}}
+
+Lsht  :  '<''<'
+Rsht  :  '>''>'
+Band  :  '&'
+Bor   :  '|'
+Bnot  :  '~'
+
+Expr  :  Expr Lsht Expr {$$ = (int)$1 << (int)$3;}
+      |  Expr Rsht Expr {$$ = (int)$1 >> (int)$3;}   
+      |  Expr Band Expr {$$ = (int)$1 & (int)$3;}
+      |  Expr Bor Expr  {$$ = (int)$1 | (int)$3;}
+      |  Bnot Expr      {$$ = ~(int)$1;}
 %%
 
 int yyerror(){

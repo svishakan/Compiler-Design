@@ -10,10 +10,6 @@
 %token  FOR WHILE
 
 %%
-Lines   :   Block Lines
-        |   Block
-        ;
-
 Block   :   Stmt Block
         |   Stmt
         ;

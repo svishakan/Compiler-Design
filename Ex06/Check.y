@@ -14,11 +14,13 @@ Lines   :   Block Lines
         |   Block
         ;
 
-Block   :   Loop '{' Block
-        |   ConStmt '{' Block
-        |   Expr ';'
-        |   '}'
+Block   :   Stmt Block
+        |   Stmt
         ;
+
+Stmt    :   Loop '{' Block '}'
+        |   ConStmt '{' Block '}'
+        |   Expr ';'
 
 Loop    :   FOR '(' Expr ';' Condns ';' Expr ')'
         |   FOR '(' ';' Condns ';' ')'

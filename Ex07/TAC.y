@@ -234,7 +234,7 @@ Conditional     :   IF '(' Condition ')' THEN Statements ELSE Statements END IF{
                         int condnBlock = ++labels;
                         int endBlock = ++labels;
                         sprintf($$->code, "%s%10s if %s then goto L%d\n%s%10s goto L%d\n%10s\nL%-5d - |\n%s%10s\nL%-5d - |\n", $3->code, "|", $3->var, condnBlock, $8->code, "|", endBlock, "|", condnBlock, $6->code, "|", endBlock);
-					}
+                    }
                 ;
 
 Condition       :   Expr RELOP Expr{

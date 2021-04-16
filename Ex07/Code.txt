@@ -4,7 +4,6 @@ b: char='c';
 c: integer=63;
 d: real=24.88;
 x: integer;
-y: real;
 
 begin
     if (i>0) then

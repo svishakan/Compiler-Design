@@ -241,7 +241,7 @@ Condition       :   Expr RELOP Expr{
                         $$ = makeNode();
                         char tac[100];
                         sprintf($$->var, "%s%s%s", $1->var, $2, $3->var);
-				        sprintf($$->code, "%s%s", $1->code, $3->code);
+                        sprintf($$->code, "%s%s", $1->code, $3->code);
                     }
                 ;
 %%

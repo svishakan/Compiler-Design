@@ -21,7 +21,7 @@ spl     (";"|","|"{"|"}"|"("|")"|"="|"&"|"|"|"!"|":")
 "else"      {return ELSE;}
 "integer"   {return INT;}
 "char"      {return CHAR;}
-"real"      {return REAL;}
+"real"      {return REALVAR;}
 ['].[']     {yylval.ch = yytext[1]; return CHCONST;}
 {term}      {yylval.str = strdup(yytext); return VAR;}
 {real}      {yylval.floatval = atof(yytext); return REAL;}

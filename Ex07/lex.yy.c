@@ -801,7 +801,7 @@ YY_RULE_SETUP
 case 8:
 YY_RULE_SETUP
 #line 24 "TAC.l"
-{return REAL;}
+{return REALVAR;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

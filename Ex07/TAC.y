@@ -35,7 +35,7 @@
 %}
 
 /*Declaration of tokens and precedence*/
-%token BGN END IF THEN ELSE INT CHAR
+%token BGN END IF THEN ELSE INT CHAR REALVAR
 %token REAL CHCONST VAR NUM RELOP ADDOP MULOP
 
 /*Increasing precedence*/
@@ -101,7 +101,7 @@ Type            :   INT{
                         sprintf($$->code, "");
                     }
                 
-                |   REAL{
+                |   REALVAR{
                         $$ = makeNode();
                         $$->floatval = 0.0;
                         sprintf($$->var, "%.2f", 0.0);

@@ -56,13 +56,14 @@ extern int yydebug;
     ELSE = 262,
     INT = 263,
     CHAR = 264,
-    REAL = 265,
-    CHCONST = 266,
-    VAR = 267,
-    NUM = 268,
-    RELOP = 269,
-    ADDOP = 270,
-    MULOP = 271
+    REALVAR = 265,
+    REAL = 266,
+    CHCONST = 267,
+    VAR = 268,
+    NUM = 269,
+    RELOP = 270,
+    ADDOP = 271,
+    MULOP = 272
   };
 #endif
 /* Tokens.  */
@@ -73,13 +74,14 @@ extern int yydebug;
 #define ELSE 262
 #define INT 263
 #define CHAR 264
-#define REAL 265
-#define CHCONST 266
-#define VAR 267
-#define NUM 268
-#define RELOP 269
-#define ADDOP 270
-#define MULOP 271
+#define REALVAR 265
+#define REAL 266
+#define CHCONST 267
+#define VAR 268
+#define NUM 269
+#define RELOP 270
+#define ADDOP 271
+#define MULOP 272
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -93,7 +95,7 @@ union YYSTYPE
     char *str;
     struct info *Node;
 
-#line 97 "y.tab.h"
+#line 99 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

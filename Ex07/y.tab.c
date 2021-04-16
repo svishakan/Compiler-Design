@@ -1507,7 +1507,7 @@ yyreduce:
 #line 133 "TAC.y"
                            {
                         (yyval.Node) = makeNode();
-                        (yyval.Node)->intval = (yyvsp[0].ch);
+                        (yyval.Node)->charval = (yyvsp[0].ch);
                         sprintf((yyval.Node)->var, "%c", (yyvsp[0].ch));
                         sprintf((yyval.Node)->code, "");
                     }

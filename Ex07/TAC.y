@@ -132,7 +132,7 @@ Value           :   NUM{
 
                 |   CHCONST{
                         $$ = makeNode();
-                        $$->intval = $1;
+                        $$->charval = $1;
                         sprintf($$->var, "%c", $1);
                         sprintf($$->code, "");
                     }
